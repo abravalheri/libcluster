@@ -151,6 +151,7 @@ defmodule Cluster.Strategy.Kubernetes.DNS do
         case resolver.(headless_service) do
           {:ok, {:hostent, _fqdn, [], :inet, _value, addresses}} ->
             parse_response(addresses, app_name, node_naming)
+            |> debug_inspect(topology, label: "node names", pretty: true, verbose: 2)
 
           {:error, reason} ->
             error(topology, "lookup against #{service} failed: #{inspect(reason)}")
